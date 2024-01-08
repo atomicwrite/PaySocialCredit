@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  
+  <PropertyGroup>
+  <PublishProfile>DefaultContainer</PublishProfile>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TypeScriptToolsVersion>latest</TypeScriptToolsVersion>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="PaySocialCredit" />
+    <Using Include="ServiceStack" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="src\Views\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="ServiceStack" Version="8.*" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\PaySocialCredit.ServiceInterface\PaySocialCredit.ServiceInterface.csproj" />
+    <ProjectReference Include="..\PaySocialCredit.ServiceModel\PaySocialCredit.ServiceModel.csproj" />
+  </ItemGroup>
+
+  <Target Name="OnFirstUse" BeforeTargets="Build" Condition=" !Exists('wwwroot\dist') ">
+    <Exec Command="node --version" ContinueOnError="true"><Output TaskParameter="ExitCode" PropertyName="ErrorCode" /></Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+  </Target>
+  
+</Project>
